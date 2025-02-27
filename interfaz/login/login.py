@@ -1,10 +1,11 @@
 import sys
 from PySide6.QtWidgets import QApplication, QMainWindow, QTableView, QVBoxLayout, QWidget, QPushButton, QDialog, QLineEdit, QLabel
 import sqlite3
+from helper import HelperView
 
 
 
-class UsuariosWindow(QMainWindow):
+class LoginWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
@@ -45,6 +46,10 @@ class UsuariosWindow(QMainWindow):
             # Comprueba las credenciales en la base de datos
             if cursor.execute("SELECT * FROM usuarios WHERE email = ? AND password = ?", (email, password)).fetchone():
                 print("Inicio de sesión exitoso")
+                self.close()
+                self.helper = HelperView()
+                self.helper.show()
+                return  # Evitar que la aplicación se cierre
             else:
                 error = QDialog()
                 error.setWindowTitle("Error")
